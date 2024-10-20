@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+    <main>
+        <head>
+            <link rel="stylesheet" href="style.css">
+        </head>
+        <body>
+            <h1>Welcome to the Smite Predictor</h1>
+            <form id="frm">
+                <div class="Team" id="team1">
+                    <h2>Team 1</h2>
+                    <input list="gods" placeholder="God 1" name="god1" required>
+                    <input list="gods" placeholder="God 2" name="god2" required>
+                    <input list="gods" placeholder="God 3" name="god3" required>
+                    <input list="gods" placeholder="God 4" name="god4" required>
+                    <input list="gods" placeholder="God 5" name="god5" required>
+                </div> 
+                <br>
+                <div class="Team" id="team2">
+                    <h2>Team 2</h2>
+                    <input list="gods" placeholder="God 1" name="god6" required>
+                    <input list="gods" placeholder="God 2" name="god7" required>
+                    <input list="gods" placeholder="God 3" name="god8" required>
+                    <input list="gods" placeholder="God 4" name="god9" required>
+                    <input list="gods" placeholder="God 5" name="god10" required>
+                </div>
+                <datalist id="gods">
+                    <option value="Thor"></option>
+                    <option value="Ah Muzen Cab"></option>
+                    <option value="Odin"></option>
+                    <option value="Medusa"></option>
+                    <option value="Fenrir"></option>
+                    <option value="Geb"></option>
+                    <option value="Hel"></option>
+                    <option value="Loki"></option>
+                    <option value="Hera"></option>
+                    <option value="Merlin"></option>
+                </datalist>
+                <input type="submit"><!--Maybe not needed-->
+            </form>
+            <button onclick="calculateWinner()">Submit Form</button>
+            <p></p>
+        </body>
+        <script src="index.js"></script>
+    </main>
