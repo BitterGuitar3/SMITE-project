@@ -2,11 +2,46 @@
 
 const form = document.getElementById("frm");
 const dataList = document.getElementById("datalist");
+const godsList = document.getElementById("gods");
 
 //When team compositions are established, form submit button should be clicked and this will fetch the necessary data from the database to calculate winning odds
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+
+    checkDuplicates();
 })
+
+function checkDuplicates() {
+    const teams = document.querySelectorAll('.Team')
+
+    teams.forEach((team) => {
+        const inputs = team.querySelectorAll('input');
+        const values = Array.from(inputs).map(input => input.value);
+        const duplicates = values.filter((value, index, self) =>
+            self.indexOf(value) !== index);
+
+        if (duplicates.length > 0) {
+            alert(`Duplicate found in ${team.querySelector('h2').innerText}: ${duplicates}`);
+        } else {
+            alert(`${team.querySelector('h2').innerText} has no duplicates`);
+        }
+    })
+}
+
+function returnAllGodsNames() {
+    fetch('/api/gods/name')
+        .then(response => response.json())
+        .then(data =>   {
+            data.data.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.Name;
+                godsList.appendChild(option);
+            });
+        })
+}
+
+returnAllGodsNames();
+
 
 /*  Basic idea of POST if user is submitting ifo into DB. WON'T BE NEEDED AS USERS ARE NOT ADDING TO A DATABASE, ONLY NEED GETS
 form.addEventListener('submit', (event) => {
@@ -50,7 +85,7 @@ function returnAllGodsAndStats() {
 returnAllGodsAndStats();
 
 
-//Below is just basic functions to mimic the idea of submitting a team composition and getting a result
+//Below is just basic functions to mimic the idea of submitting a team composition and getting a result. NOTE: DOES NOT WORK BECAUSE TEST NAMES ARE NO LONGER IN LIST
 function calculateWinner() {
     let p = document.querySelector("p");
     let x = document.getElementById("frm");

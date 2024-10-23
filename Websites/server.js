@@ -27,6 +27,21 @@ app.get('/api/data', (req, res) => {
   });
 });
 
+app.get('/api/gods/name', (req, res) => {
+  db.all('SELECT name FROM Gods', [], (err, rows) => {
+    if (err) {
+      res.status(500).json({error: err.message});
+      return;
+    }
+    res.json({
+      message: "success",
+      data: rows
+    });
+  });
+});
+
+//app.get('/api/gods/stats' , (req, res))
+
 // Route to handle POST request to insert data into the database of a basic DB.
 /*app.post('/api/data', (req, res) => {
   const { name, age } = req.body;
