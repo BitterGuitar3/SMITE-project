@@ -1,16 +1,25 @@
-//const { response } = require("express");
-
+//Constants
 const form = document.getElementById("frm");
-const dataList = document.getElementById("datalist");
+const GodsDBDump = document.getElementById("GodsDBDump");
 const godsList = document.getElementById("gods");
 
+// Event Listeners
 //When team compositions are established, form submit button should be clicked and this will fetch the necessary data from the database to calculate winning odds
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-
     checkDuplicates();
 })
 
+//Initialize
+init();
+
+//Functions
+function init(){
+    returnAllGodsNames();
+    returnAllGodsAndStats();
+}
+
+//Check duplicate for duplicate gods on the same team
 function checkDuplicates() {
     const teams = document.querySelectorAll('.Team')
 
@@ -28,6 +37,7 @@ function checkDuplicates() {
     })
 }
 
+//For generating the list of gods to select from for the teams
 function returnAllGodsNames() {
     fetch('/api/gods/name')
         .then(response => response.json())
@@ -39,9 +49,6 @@ function returnAllGodsNames() {
             });
         })
 }
-
-returnAllGodsNames();
-
 
 /*  Basic idea of POST if user is submitting ifo into DB. WON'T BE NEEDED AS USERS ARE NOT ADDING TO A DATABASE, ONLY NEED GETS
 form.addEventListener('submit', (event) => {
@@ -68,37 +75,25 @@ form.addEventListener('submit', (event) => {
 });
 */
 
-//Used for testing fetching APIs and see the JSON layout
+//Used for testing fetching APIs and see the JSON layout\
 function returnAllGodsAndStats() {
     fetch('/api/data')
         .then(response => response.json())
         .then(data => {
-            dataList.innerHTML = ''; //clear list
+            GodsDBDump.innerHTML = ''; //clear list
             data.data.forEach(item => {
                 const li = document.createElement('li');
                 li.textContent = JSON.stringify(item);
-                dataList.appendChild(li);
+                GodsDBDump.appendChild(li);
             });
         })
 }
 
-returnAllGodsAndStats();
-
-
 //Below is just basic functions to mimic the idea of submitting a team composition and getting a result. NOTE: DOES NOT WORK BECAUSE TEST NAMES ARE NO LONGER IN LIST
 function calculateWinner() {
     let p = document.querySelector("p");
-    let x = document.getElementById("frm");
-    let team1 = 0;
-    let team2 = 0
-
-    for(var i = 0; i < x.length; i++) {
-        if (x.elements[i].parentNode.id === "team1") {
-            team1 += addScore(x.elements[i].value, team1)
-        } else {
-            team2 += addScore(x.elements[i].value, team2)
-        }
-    }
+    const team1 = calculateTeamScore("team1");
+    const team2 = calculateTeamScore("team2");
 
     if (team1 > team2){
         p.innerHTML = "Team 1 is more likely to win";
@@ -109,39 +104,23 @@ function calculateWinner() {
     }
 }
 
-function addScore(value, team){
-    let y = 0;
-    switch(value) {
-        case "Thor":
-            y += 1;
-            break;
-        case "Ah Muzen Cab":
-            y += 2;
-            break;
-        case "Odin":
-            y += 3;
-            break;
-        case "Medusa":
-            y += 4;
-            break;
-        case "Fenrir":
-            y += 5;
-            break;
-        case "Geb":
-            y += 6;
-            break;
-        case "Hel":
-            y += 7;
-            break;
-        case "Loki":
-            y += 8;
-            break;
-        case "Hera":
-            y += 9;
-            break;
-        case "Merlin":
-            y += 10;
-            break;
-    }
-    return y;
+function calculateTeamScore(teamId) {
+    const inputs = document.querySelectorAll('#${teamId} input');
+    return Array.form(inputs).reduce((total, input) => total + addScore(input.value), 0);
+}
+
+function addScore(value){
+    const scoreMapping = {
+        "Thor": 1,
+        "Ah Muzen Cab": 2,
+        "Odin": 3,
+        "Medusa": 4,
+        "Fenrir": 5,
+        "Geb": 6,
+        "Hel": 7,
+        "Loki": 8,
+        "Hera": 9,
+        "Merlin": 10
+    };
+    return scoreMapping[value] || 0; //Return 0 if value is not in the mapping
 }
