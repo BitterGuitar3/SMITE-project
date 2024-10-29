@@ -2,3 +2,50 @@
     border: 5px solid black;
     border-radius: 5px;
 }
+
+.custom-select { /* The whole selection block*/
+    position: relative;
+    display: inline-block;
+    width: 200px; /* Adjust width as needed */
+}
+
+.selected-option { /*The block text*/
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.options-list {
+    display: none; /* Hidden by default */
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.options-list.active {
+    display: block; /* Show the list when active */
+}
+
+.option-item { /*The Li*/
+    display: flex;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+}
+
+.option-item:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+}
+
+.option-image {
+    width: 50px; /* Set image width */
+    height: 50px; /* Set image height */
+    margin-right: 10px; /* Space between image and text */
+}
