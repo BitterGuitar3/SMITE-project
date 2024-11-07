@@ -6,7 +6,12 @@
 .custom-select { /* The whole selection block*/
     position: relative;
     display: inline-block;
-    width: 200px; /* Adjust width as needed */
+    width: 15%; /* Adjust width as needed */
+    border: 1px solid #ccc;
+    background-image: url(/God_Images/none.png);
+    background-position: center center;
+    height: 300px;
+    background-size: 100% 100%;
 }
 
 .selected-option { /*The block text*/
@@ -14,6 +19,12 @@
     padding: 10px;
     border: 1px solid #ccc;
     background-color: #fff;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    box-sizing: border-box;
+    opacity: 75%;
+    text-align: center;
 }
 
 .options-list {
@@ -23,6 +34,7 @@
     border: 1px solid #ccc;
     max-height: 200px;
     overflow-y: auto;
+    top: 100%;
     width: 100%;
     z-index: 1;
     padding: 0;

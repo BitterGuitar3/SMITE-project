@@ -67,12 +67,6 @@ function returnAllGodsNames() {
                     godsList.appendChild(li);
                 })
             }
-
-            /*data.data.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.Name;
-                godsList.appendChild(option);
-            });*/
         })
         .catch(error => console.error('Error fetching god names:', error));
 }
@@ -99,6 +93,7 @@ function createOptionItem(item) {
         selectedOption.textContent = item.Name;
         hiddenInput.value = item.Name; // Set the hidden input value
         closeAllDropdowns();
+        updateSelectedImage(li.parentElement.parentElement, item.ImgFilePath);
     })
 
     return li;
@@ -109,6 +104,10 @@ function closeAllDropdowns(){
     allOptionLists.forEach (list => {
         list.classList.remove('active'); //Close the dropdown
     })
+}
+
+function updateSelectedImage(customSelect, path) {
+    customSelect.style.backgroundImage = `url('${path}')`;
 }
 
 /*  Basic idea of POST if user is submitting ifo into DB. WON'T BE NEEDED AS USERS ARE NOT ADDING TO A DATABASE, ONLY NEED GETS
