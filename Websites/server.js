@@ -28,8 +28,8 @@ app.get('/api/data', (req, res) => {
   });
 });
 
-app.get('/api/gods/name', (req, res) => {
-  db.all('SELECT * FROM Gods', [], (err, rows) => {
+app.get('/api/gods/name_and_portrait', (req, res) => {
+  db.all('SELECT name,ImgFilePath  FROM Gods', [], (err, rows) => {
     if (err) {
       res.status(500).json({error: err.message});
       return;

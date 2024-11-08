@@ -1,6 +1,8 @@
 //Constants
 const form = document.getElementById("frm");
 const GodsDBDump = document.getElementById("GodsDBDump");
+var selectedGodName;
+var selectedGodImg;
 //const godsList = document.getElementById("gods");
 
 // Event Listeners
@@ -16,6 +18,8 @@ document.querySelectorAll('.selected-option').forEach(option => {
         closeAllDropdowns();
         const optionsList = this.nextElementSibling; // Get the corresponding options list
         optionsList.classList.toggle('active'); // Toggle visibility
+        selectedGodName = this.textContent;
+        selectedGodImg = `url('/God_images/${selectedGodName}.png')`;
     });
 });
 
@@ -33,7 +37,7 @@ init();
 
 //Functions
 function init(){
-    returnAllGodsNames();
+    createDropdown();
     returnAllGodsAndStats();
 }
 
@@ -55,9 +59,9 @@ function checkDuplicates() {
     })
 }
 
-//For generating the list of gods to select from for the teams
-function returnAllGodsNames() {
-    fetch('/api/gods/name')
+//For generating the list of gods to select from for the teams. Only needs names and images
+function createDropdown() {
+    fetch('/api/gods/name_and_portrait')
         .then(response => response.json())
         .then(data => {
             for (let i = 1; i <= 10; i++){ //Loop through each dropdown selection adding all the gods to make the list
@@ -92,8 +96,25 @@ function createOptionItem(item) {
         const hiddenInput = li.parentElement.nextElementSibling
         selectedOption.textContent = item.Name;
         hiddenInput.value = item.Name; // Set the hidden input value
+        selectedGodName = item.Name;
+        selectedGodImg = item.ImgFilePath;
         closeAllDropdowns();
         updateSelectedImage(li.parentElement.parentElement, item.ImgFilePath);
+    })
+
+    
+    li.addEventListener('mouseenter', () => {
+        const customSelect = li.parentElement.parentElement;
+        const selectedOption = li.parentElement.previousElementSibling;
+        customSelect.style.backgroundImage = `url('${item.ImgFilePath}')`;
+        selectedOption.textContent = item.Name;
+    })
+
+    li.addEventListener('mouseleave', () => {
+        const customSelect = li.parentElement.parentElement;
+        const selectedOption = li.parentElement.previousElementSibling;
+        customSelect.style.backgroundImage = selectedGodImg;
+        selectedOption.textContent = selectedGodName;
     })
 
     return li;
