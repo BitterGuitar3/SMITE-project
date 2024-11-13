@@ -1,3 +1,4 @@
+//This is just a test fopr discrod notif
 //Constants
 const form = document.getElementById("frm");
 const GodsDBDump = document.getElementById("GodsDBDump");
