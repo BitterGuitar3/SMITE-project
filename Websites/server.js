@@ -41,6 +41,34 @@ app.get('/api/gods/name_and_portrait', (req, res) => {
   });
 });
 
+app.get('/api/gods/:name', (req, res) => {
+  const godName = req.params.name; // Get the god's name from the URL parameter
+
+  db.get('Select * from Gods WHERE name = ?', [godName], (err, row) => {
+    if(err) {
+      return res.status(500).json({err: err.message});
+    }
+    if(!row) {
+      return res.status(404).json({message: 'God not found'});
+    }
+
+    // Initialize an empty array to store the numerical values
+    let valuesArray = [];
+
+    // Loop through each column in the row and add it to the array if the value is a number
+    for (const key in row) {
+      if (typeof row[key] === 'number' && key !== 'ID') {
+        valuesArray.push(row[key]);
+      }
+    }
+
+    res.json ({
+      message: 'success',
+      data: valuesArray
+    });
+  });
+});
+
 //app.get('/api/gods/stats' , (req, res))
 
 //updating image paths

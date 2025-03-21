@@ -10,6 +10,7 @@ var selectedGodImg;
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     checkDuplicates();
+    calculateWinner()
 })
 
 //Adding click listeners to each god selection box to open up the list of god choices
@@ -170,8 +171,72 @@ function returnAllGodsAndStats() {
         })
 }
 
+async function calculateWinner() {
+    let p = document.querySelector("p");
+    let team1Arr = [0,0,0,0,0,0,0,0];
+    let team2Arr = [0,0,0,0,0,0,0,0];
+    await calculateAverages(team1Arr, "team1");
+    await calculateAverages(team2Arr, "team2");
 
+    let result = compareTeams(team1Arr, team2Arr);
+    if (result > 0){
+        console.log("Team 1");
+        p.innerHTML = "Team 1 is more likely to win";
+    } 
+    else if (result < 0) {
+        console.log("Team 2");
+        p.innerHTML = "Team 2 is more likely to win";
+    } 
+    else {
+        console.log("neither");
+        p.innerHTML = "Teams are fairly balanced";
+    }
+}
+async function calculateAverages(teamArr, teamID) {
+    let inputs = document.querySelectorAll(`#${teamID} input`);
+    let currGod;
 
+    for (let input of inputs) {
+        currGod = input.value;
+        await addStats(currGod, teamArr);
+    }
+    for(let i = 0; i < teamArr.length; i++) {
+        teamArr[i] /= 5;
+    }
+}
+async function addStats(god, teamArr){
+    try {
+        //Make the fetch request and wait for response
+        const response = await fetch(`/api/gods/${god}`)//Feteches the data of the god that has been input
+        const data = await response.json();
+     
+        if (data.message === 'success') {
+            const values = data.data;
+            for (let i = 0; i < teamArr.length; i++) {
+                teamArr[i] += values[i];
+            }
+        }
+        else {
+            alert(data.message) //If god aint found
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+            alert('Something went wrong. Please try again later.');
+    }
+}
+function compareTeams(team1, team2){
+    let result = 0;
+    for(let i = 0; i < team1.length; i++) {
+        if(team1[i] > team2[i]) {
+            result++;
+        } else if (team1[i] < team2[i]) {
+            result--;
+        }
+    }
+
+    return result;
+}
+/*
 //Below is just basic functions to mimic the idea of submitting a team composition and getting a result. NOTE: DOES NOT WORK BECAUSE TEST NAMES ARE NO LONGER IN LIST
 function calculateWinner() {
     let p = document.querySelector("p");
@@ -206,4 +271,4 @@ function addScore(value){
         "Merlin": 10
     };
     return scoreMapping[value] || 0; //Return 0 if value is not in the mapping
-}
+}*/
