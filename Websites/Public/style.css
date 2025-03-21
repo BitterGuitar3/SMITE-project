@@ -3,10 +3,10 @@
     border-radius: 5px;
 }
 
-.custom-select { /* The whole selection block*/
+.custom-select {
     position: relative;
     display: inline-block;
-    width: 15%; /* Adjust width as needed */
+    width: 15%; 
     border: 1px solid #ccc;
     background-image: url(/God_Images/Select\ A\ God.png);
     background-position: center center;
@@ -14,7 +14,7 @@
     background-size: 100% 100%;
 }
 
-.selected-option { /*The block text*/
+.selected-option {
     cursor: pointer;
     padding: 10px;
     border: 1px solid #ccc;
@@ -28,7 +28,7 @@
 }
 
 .options-list {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
     background-color: white;
     border: 1px solid #ccc;
@@ -42,10 +42,10 @@
 }
 
 .options-list.active {
-    display: block; /* Show the list when active */
+    display: block; 
 }
 
-.option-item { /*The Li*/
+.option-item { 
     display: flex;
     align-items: center;
     padding: 0;
@@ -53,11 +53,11 @@
 }
 
 .option-item:hover {
-    background-color: #f0f0f0; /* Highlight on hover */
+    background-color: #f0f0f0;
 }
 
 .option-image {
-    width: 50px; /* Set image width */
-    height: 50px; /* Set image height */
-    margin-right: 10px; /* Space between image and text */
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
 }

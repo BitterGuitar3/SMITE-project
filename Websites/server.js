@@ -28,6 +28,7 @@ app.get('/api/data', (req, res) => {
   });
 });
 
+//API for getting just the name and portraits of all the gods for the selection dropdowns
 app.get('/api/gods/name_and_portrait', (req, res) => {
   db.all('SELECT name,ImgFilePath  FROM Gods', [], (err, rows) => {
     if (err) {
@@ -41,6 +42,7 @@ app.get('/api/gods/name_and_portrait', (req, res) => {
   });
 });
 
+//API for slecting a certain god an all their information
 app.get('/api/gods/:name', (req, res) => {
   const godName = req.params.name; // Get the god's name from the URL parameter
 
@@ -68,8 +70,6 @@ app.get('/api/gods/:name', (req, res) => {
     });
   });
 });
-
-//app.get('/api/gods/stats' , (req, res))
 
 //updating image paths
 app.put('/api/gods/updateImagePaths', (req, res) => {

@@ -3,7 +3,15 @@ const form = document.getElementById("frm");
 const GodsDBDump = document.getElementById("GodsDBDump");
 var selectedGodName;
 var selectedGodImg;
-//const godsList = document.getElementById("gods");
+
+//Initialize
+init();
+
+//Functions
+function init(){
+    createDropdown();
+    returnAllGodsAndStats();
+}
 
 // Event Listeners
 //When team compositions are established, form submit button should be clicked and this will fetch the necessary data from the database to calculate winning odds
@@ -24,7 +32,7 @@ document.querySelectorAll('.selected-option').forEach(option => {
     });
 });
 
-//
+//Close dropdowns when user doesn't click an option selection box
 document.addEventListener('click', function(event) {
     if (!event.target.closest('.custom-select')) {
         document.querySelectorAll('.options-list').forEach(list => {
@@ -32,15 +40,6 @@ document.addEventListener('click', function(event) {
         });
     }
 });
-
-//Initialize
-init();
-
-//Functions
-function init(){
-    createDropdown();
-    returnAllGodsAndStats();
-}
 
 //Check duplicate for duplicate gods on the same team
 function checkDuplicates() {
@@ -81,6 +80,7 @@ function createOptionItem(item) {
     const li = document.createElement('li');
     li.classList.add('option-item');
 
+    
     const img = document.createElement('img');
     img.src = item.ImgFilePath;
     img.alt = item.Name;
@@ -92,6 +92,7 @@ function createOptionItem(item) {
     li.appendChild(img);
     li.appendChild(span);
 
+    // When li is selected, updated the hidden value (for the javascript), and updates the selectedOption's name and image of what the player selected
     li.addEventListener('click', () => {
         const selectedOption = li.parentElement.previousElementSibling;
         const hiddenInput = li.parentElement.nextElementSibling
@@ -103,7 +104,7 @@ function createOptionItem(item) {
         updateSelectedImage(li.parentElement.parentElement, item.ImgFilePath);
     })
 
-    
+    //Updates the image of what is selected with what the user highlights
     li.addEventListener('mouseenter', () => {
         const customSelect = li.parentElement.parentElement;
         const selectedOption = li.parentElement.previousElementSibling;
@@ -111,6 +112,7 @@ function createOptionItem(item) {
         selectedOption.textContent = item.Name;
     })
 
+    // Returns the image and name back to what the pl;ayer originally selected with a click
     li.addEventListener('mouseleave', () => {
         const customSelect = li.parentElement.parentElement;
         const selectedOption = li.parentElement.previousElementSibling;
@@ -171,6 +173,7 @@ function returnAllGodsAndStats() {
         })
 }
 
+//Basic idea of caluclating which team is better. OBviously not at all a good indicator, but just using this as a prototype
 async function calculateWinner() {
     let p = document.querySelector("p");
     let team1Arr = [0,0,0,0,0,0,0,0];
@@ -236,39 +239,3 @@ function compareTeams(team1, team2){
 
     return result;
 }
-/*
-//Below is just basic functions to mimic the idea of submitting a team composition and getting a result. NOTE: DOES NOT WORK BECAUSE TEST NAMES ARE NO LONGER IN LIST
-function calculateWinner() {
-    let p = document.querySelector("p");
-    const team1 = calculateTeamScore("team1");
-    const team2 = calculateTeamScore("team2");
-
-    if (team1 > team2){
-        p.innerHTML = "Team 1 is more likely to win";
-    } else if (team1 < team2) {
-        p.innerHTML = "Team 2 is more likely to win";
-    } else {
-        p.innerHTML = "Teams are pretty balanced"
-    }
-}
-
-function calculateTeamScore(teamId) {
-    const inputs = document.querySelectorAll('#${teamId} input');
-    return Array.form(inputs).reduce((total, input) => total + addScore(input.value), 0);
-}
-
-function addScore(value){
-    const scoreMapping = {
-        "Thor": 1,
-        "Ah Muzen Cab": 2,
-        "Odin": 3,
-        "Medusa": 4,
-        "Fenrir": 5,
-        "Geb": 6,
-        "Hel": 7,
-        "Loki": 8,
-        "Hera": 9,
-        "Merlin": 10
-    };
-    return scoreMapping[value] || 0; //Return 0 if value is not in the mapping
-}*/
